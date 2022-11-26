@@ -5,71 +5,107 @@ class binaryTree:
   def __init__(self):
     self.root = None
 
-  
-  def iterar(self):
-    mae, controle= None, self.root
-    lista = []
-    while controle is not None: 
-      
-      if controle.esquerda is not None: 
-        lista.append(controle.value) 
-        mae, controle = controle, controle.esquerda
-        
-      if controle.direita is not None:       
-        lista.append(controle.value)
-        mae, controle = controle, controle.direita
+  #funcao que itera a arvore para achar o node pai de um node filho
+  def acharPai(self,aux,valor,pai = None):
+    if(aux is None):
+      return
+    if(aux.value == valor):
+      return pai
+    else:
+      return self.acharPai(aux.esquerda,valor,aux)
+      return self.acharPai(aux.direita,valor,aux)
 
   
+  #funcao privada que printa a arvore
+  def __printarArvore(self,controle,distancia):
+    if (controle == None):
+      return
+    else:
+      distancia += 1
+
+      self.__printarArvore(controle.direita, distancia)
+
+      print()
+      for i in range(0,distancia):
+        print(end="    ")
+      print(controle.value)
+
+      self.__printarArvore(controle.esquerda,distancia)
+
+  #funcao para printar a arvore
   def printar(self):
-    mae, controle= None, self.root
-    lista = []
-    while controle is not None: 
+    self.__printarArvore(self.root,0)
       
-      if controle.esquerda is not None: 
-        lista.append(controle.value) 
-        mae, controle = controle, controle.esquerda
-        
-      if controle.direita is not None:       
-        lista.append(controle.value)
-        mae, controle = controle, controle.direita
-
-    print(lista)
-    
-
+  #funcao para adicionar valores na arvore
   def adicionar(self,value):
     aux = self.root
-    node = n(value)
+   
 
     while(True):
 
-      if(self.root == None):      
+      if(self.root == None): 
+        node = n(value)
         self.root = node
         break
       
-      if(node.esquerda == None): 
+      if(aux.esquerda == None): 
         if(value < aux.value):
-          node.setEsquerda(value)
+          node = n(value)
+          aux.setEsquerda(node)
           break
 
-      if(node.direita == None):   
+      if(aux.direita == None):   
         if(value > aux.value):
-          node.setDireita(value)
+          node = n(value)
+          aux.setDireita(node)
           break
 
       if(value<aux.value):
         aux = aux.esquerda
-
-      if(value>aux.value):
+      elif(value>aux.value):
         aux = aux.direita 
 
+  #funcao para remover valor da arvore e ajeita-la
+  def remover(self,value):
+    self.__removerAjeitar(value,self.root)
 
-  def remover(self,controle,value):
+
+  #funcao para ajeitar a arvore apos remocao de valor
+  def __ajeitar(self,controle):
+    aux = controle
+
+    while True:
+    
+      if(aux.value == None):
+
+        if(aux.esquerda == None and aux.direita == None):
+          break
+         
+        if(aux.esquerda is not None):
+          aux.value = aux.esquerda.value
+          aux.esquerda.value = None
+          aux = aux.esquerda
+        if(aux.direita is not None):
+          aux.value = aux.direita.value
+          aux.direita.value = None
+          aux = aux.direita
+
+         
+
+  #funcao que itera a arvore ate achar certo valor para entao remove-lo
+  #e chama tambem a funcao de ajeitar
+  def __removerAjeitar(self,value,controle = None):
+
     if(self.root == None):
       return self.root
 
-    if(value<self.root.value):
-      self.root.esquerda = self.remover(self.root.esquerda,value)
-
-    if(value>self.root.value):
-      self.root.direita = self.remover(self.root.direita,value)
+    if(value == controle.value):
+      controle.value = None
+      self.__ajeitar(controle)
+        
+    if(controle.esquerda is not None):
+      self.__removerAjeitar(value,controle.esquerda)
+      
+    if(controle.direita is not None):
+      self.__removerAjeitar(value,controle.direita)
     

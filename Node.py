@@ -8,7 +8,6 @@ class node:
   def printar(self):
     print(self.value)
 
-
   def setDireita(self,direita):
     self.direita = direita
 
