@@ -1,4 +1,4 @@
-from Node import node as n
+from node import node as n
 
 class binaryTree:
 
@@ -14,6 +14,46 @@ class binaryTree:
     else:
       return self.acharPai(aux.esquerda,valor,aux)
       return self.acharPai(aux.direita,valor,aux)
+
+  #pre ordem
+  def __preOrdem(self,aux):
+    if (aux is None):
+      return
+      
+    print(aux.value)
+    self.__preOrdem(aux.esquerda)
+    self.__preOrdem(aux.direita)
+
+  #executar pre Ordem
+  def ex_preOrdem(self):
+    self.__preOrdem(self.root)
+
+  #em ordem
+  def __emOrdem(self,aux):
+    if (aux is None):
+      return
+      
+    self.__emOrdem(aux.esquerda)
+    print(aux.value)
+    self.__emOrdem(aux.direita)
+
+  #executar em Ordem
+  def ex_emOrdem(self):
+    self.__emOrdem(self.root)
+
+
+  #pos ordem
+  def __posOrdem(self,aux):
+    if (aux is None):
+      return
+      
+    self.__posOrdem(aux.esquerda)
+    self.__posOrdem(aux.direita)
+    print(aux.value)
+
+  #executar pos Ordem
+  def ex_posOrdem(self):
+    self.__posOrdem(self.root)
 
   
   #funcao privada que printa a arvore
@@ -108,4 +148,4 @@ class binaryTree:
       
     if(controle.direita is not None):
       self.__removerAjeitar(value,controle.direita)
-    
+
